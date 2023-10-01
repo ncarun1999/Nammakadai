@@ -4,4 +4,9 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
+
+  namespace :onboarding do
+    get  'steps/:step',  to: 'wizard#show', as: 'step'
+    post 'steps/:step',  to: 'wizard#update'
+  end
 end

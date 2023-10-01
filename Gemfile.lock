@@ -97,6 +97,9 @@ GEM
       responders
       warden (~> 1.2.3)
     erubi (1.12.0)
+    fx (0.8.0)
+      activerecord (>= 6.0.0)
+      railties (>= 6.0.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
     hashie (5.0.0)
@@ -274,6 +277,7 @@ DEPENDENCIES
   capybara
   debug
   devise (~> 4.9)
+  fx
   importmap-rails
   jbuilder
   logidze (~> 1.1)

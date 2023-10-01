@@ -1,0 +1,47 @@
+<section class="bg-orange-50 dark:bg-gray-900">
+  <div class="flex flex-col items-center justify-center px-6 py-8 shadow-xl mx-auto md:h-screen lg:py-0">
+    <%= image_tag 'icon_transparent.png', class: 'w-[25%] h-[15%] mr-2' %>
+    <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+      <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+        <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+          Welcome back! 😎
+        </h1>
+        <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-4 md:space-y-6" }) do |f| %>
+          <div>
+            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: 'name@gmail.com', class: "bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" %>
+          </div>
+          <div>
+            <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+            <%= f.password_field :password, autocomplete: "current-password", placeholder: "••••••••", class: 'bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' %>
+          </div>
+          <div class="flex items-center justify-between">
+            <div class="flex items-start">
+              <div class="flex items-center h-5">
+                <%= f.check_box :remember_me, 'aria-describedby': "remember", class: 'w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800' %>
+              </div>
+              <div class="ml-3 text-sm">
+                <label for="remember" class="text-gray-500 dark:text-gray-300">Remember me</label>
+              </div>
+            </div>
+            <%= link_to 'Forget password?', new_password_path(resource_name), class: 'text-sm font-medium text-primary-600 hover:underline dark:text-primary-500' %>
+          </div>
+          <%= f.submit "Sign in", class: 'w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800' %>
+          <div class="flex items-center text-sm">
+            <hr class="flex-grow border-t border-gray-300">
+            <label class="text-gray-500 dark:text-gray-300 px-5">or</label>
+            <hr class="flex-grow border-t border-gray-300">
+          </div>
+        <% end %>
+        <button type="submit" class="w-full flex text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+          <img src="https://tailus.io/sources/blocks/social/preview/images/google.svg" class="w-5 ml-[24%] mr-5" alt="google logo">
+          Sign in with google
+        </button>
+        <p class="text-sm font-light text-gray-500 dark:text-gray-400">
+          Don’t have an shop yet?
+          <a href="#" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Create one</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

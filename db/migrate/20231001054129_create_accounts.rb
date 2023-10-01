@@ -5,11 +5,13 @@ class CreateAccounts < ActiveRecord::Migration[7.0]
       t.string :sales_department_email
       t.string :reporting_email
       t.string :logo
-      t.text :description
       t.string :subdomain
       t.string :phone
       t.string :gst_number
       t.string :shop_id
+      t.string :order_prefix
+      t.integer :last_ordered_number
+      t.text :description
       t.boolean :test_mode
       t.jsonb :additional_details, default: {}
       t.datetime :is_imported
