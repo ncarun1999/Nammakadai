@@ -75,3 +75,8 @@ end
 
 # Css
 gem 'tailwindcss-rails', '~> 2.0'
+
+gem 'devise', '~> 4.9'
+gem 'omniauth'
+gem 'omniauth-rails_csrf_protection'
+gem 'rolify', '~> 6.0', '>= 6.0.1'
