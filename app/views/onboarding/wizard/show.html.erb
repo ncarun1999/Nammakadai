@@ -1,1 +1,12 @@
-<%= render "onboarding/wizard/steps/#{onboarding_step_key}" %>
+<%= @errors %>
+<section class="py-8 bg-white zlFmyfujKXCLCPyPEOIS PXkJjw7zOhdtCh3e_PWh">
+  <div class="lg:flex">
+    <%= render 'onboarding/wizard/steps/leftbar' %>
+    <div class="flex items-center RV8RoaI_SlEMC5CEQ3ms eGvjAhhVIxMA_HsZGxBN veFXkDzfJN473U3ycrV8 FiatbQ7XQBzLwTHkiu8Z Xjxpb8u_H96dZt4r1eF6">
+      <div class="w-full">
+        <%= render 'onboarding/wizard/steps/topbar' %>
+        <%= render "onboarding/wizard/steps/#{onboarding_step_key}" %>
+      </div>
+    </div>
+  </div>
+</section>

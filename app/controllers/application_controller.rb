@@ -8,6 +8,6 @@ class ApplicationController < ActionController::Base
   helper_method :current_account
 
   def set_current_account
-    @set_current_account ||= current_user.try(:account)
+    @current_account ||= current_user.try(:account)
   end
 end

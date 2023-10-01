@@ -10,6 +10,7 @@ class CreateAccounts < ActiveRecord::Migration[7.0]
       t.string :gst_number
       t.string :shop_id
       t.string :order_prefix
+      t.integer :account_type
       t.integer :last_ordered_number
       t.text :description
       t.boolean :test_mode
