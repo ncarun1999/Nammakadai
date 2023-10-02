@@ -81,6 +81,7 @@ test:
 #
 production:
   <<: *default
-  database: My1_production
-  username: My1
-  password: <%= ENV["MY1_DATABASE_PASSWORD"] %>
+  database: <%= ENV.fetch('PRODUCTION_DATABASE', '') %>
+  username: <%= ENV.fetch('PRODUCTION_DATABASE_USERNAME', '') %>
+  password: <%= ENV.fetch('PRODUCTION_DATABASE_PASSWORD', '') %>
+  url: <%= ENV.fetch('PRODUCTION_DATABASE_URL', '') %>
