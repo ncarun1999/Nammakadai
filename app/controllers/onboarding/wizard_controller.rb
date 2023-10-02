@@ -1,14 +1,15 @@
 # frozen_string_literal: true
 
 class Onboarding::WizardController < ApplicationController
-  before_action :validate_shop_info, only: :update
-  STEPS = %w[Basic Address].freeze
+  before_action :set_account
+  before_action :require_completed_account_setup!
+  before_action :require_incompleted_account_setup!
+  before_action :validate_user_agreement, only: :update
+
+  STEPS = %w[Basic User Complete].freeze
   TOTAL_STEPS = STEPS.count
 
   def prepare_step
-    @account ||= Account.find_by(id: session[:account_id])
-    @user ||= current_account&.users&.first || User.find_by(id: session[:user_id])
-
     @steps = (1..TOTAL_STEPS)
     @onboarding_step = @account&.current_onboard_step&.to_i || @steps.find { |x| x == params[:step].to_i } || 1
 
@@ -17,29 +18,37 @@ class Onboarding::WizardController < ApplicationController
   end
 
   def show
-    redirect_to onboarding_step_path(step: 1) and return if params[:step] != '1' && @account.blank?
-
     prepare_step
 
     prepare_method_name = "prepare_#{@onboarding_step_key}".to_sym
-    send(prepare_method_name) if respond_to? prepare_method_name
-
+    send(prepare_method_name) # if respond_to? prepare_method_name
     render :show
   end
 
   def update
-    process_shop_info if params[:step] == '1'
+    case params[:step]
+    when '1'
+      process_account
+    when '2'
+      process_user
+    end
 
-    redirect_to onboarding_step_path(params[:step].to_i + 1) if @user&.valid?
+    redirect_to onboarding_path(step: params[:step].to_i + 1) if flash[:alert].nil?
   end
 
   private
 
-  def prepare_verification; end
+  def prepare_basic
+    @account ||= Account.new
+    @account.shop_addresses.build
+  end
 
-  def process_shop_info
-    process_account
-    process_user
+  def prepare_user
+    @user = @account.users.build
+  end
+
+  def prepare_complete
+    @user = @account.users.find_by(id: session[:user_id])
   end
 
   def process_account
@@ -47,55 +56,51 @@ class Onboarding::WizardController < ApplicationController
     if @account.save
       @account.update(current_onboard_step: 2, user_agreement_accepted_on: Time.now)
       session[:account_id] = @account.id
-      @account
     else
       flash[:alert] = @account.errors.full_messages.join(', ')
-      redirect_to onboarding_path
+      redirect_to request.referrer
     end
   end
 
   def process_user
-    return if @account.nil?
-
     @user = @account.users.new user_params
     if @user.save
+      @account.update(current_onboard_step: 3)
       session[:user_id] = @user.id
     else
       flash[:alert] = @user.errors.full_messages.join(', ')
-      redirect_to onboarding_path
+      redirect_to request.referrer
     end
   end
 
-  def validate_shop_info
-    return unless params[:step] == '1'
+  def require_completed_account_setup!
+    return unless params[:step] != '1' && @account.blank?
 
-    user_params = params[:user]
-    account_params = params[:account]
+    redirect_to onboarding_path(step: 1)
+  end
 
-    @errors = {}
-    @errors['name'] = 'Shop name must exist' if account_params[:name].blank?
-    @errors['password'] = 'Password must exist' if user_params[:password].blank?
-    @errors['terms'] = 'Please accept term before continue' unless params[:terms] == 'on'
+  def require_incompleted_account_setup!
+    redirect_to root_path if current_account.present? && current_account.onboarded?
+  end
 
-    unless user_params[:password] == user_params[:confirm_password]
-      @errors['password_not_eql'] =
-        'Password and Confirmation password are not same'
-    end
+  def validate_user_agreement
+    return unless params[:step] == '1' && !params[:terms] == 'on'
 
-    @errors['email'] = 'Email already taken' if User.find_by(email: params[:user][:email]).present?
-    return if @errors.blank?
-
-    flash[:alert] = @errors.values.join(', ')
+    flash[:alert] = 'Please accept user agreement before continue.'
     redirect_to onboarding_path
   end
 
+  def set_account
+    @account ||= Account.find_by(id: session[:account_id])
+  end
+
   def account_params
-    params.require(:account).permit(:name).merge(account_type: params[:account_type].to_i, phone: params[:phone])
+    params.require(:account).permit(
+      :name, :account_type, :phone, shop_addresses_attributes: %i[street_1 street_2 city postal_code state is_default]
+    )
   end
 
   def user_params
-    params.require(:user).permit(:email, :password).merge(
-      first_name: params[:account][:name], phone: params[:phone]
-    )
+    params.require(:user).permit(:first_name, :last_name, :phone, :email, :password)
   end
 end

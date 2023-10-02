@@ -117,6 +117,10 @@ GEM
       activesupport (>= 5.0.0)
     json (2.6.3)
     language_server-protocol (3.17.0.3)
+    launchy (2.5.2)
+      addressable (~> 2.8)
+    letter_opener (1.8.1)
+      launchy (>= 2.2, < 3)
     logidze (1.2.3)
       activerecord (>= 5.0)
       railties (>= 5.0)
@@ -280,6 +284,7 @@ DEPENDENCIES
   fx
   importmap-rails
   jbuilder
+  letter_opener
   logidze (~> 1.1)
   omniauth
   omniauth-rails_csrf_protection

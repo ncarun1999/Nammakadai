@@ -10,6 +10,6 @@ module ApplicationHelper
   end
 
   def enum_to_values(resource_klass, type)
-    resource_klass.send(type)&.map { |k, v| [k.tr('_', ' ').titleize, v] }
+    resource_klass.send(type)&.map { |k, _v| [k.tr('_', ' ').titleize, k] }
   end
 end

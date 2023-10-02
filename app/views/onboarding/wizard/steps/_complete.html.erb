@@ -1,0 +1,15 @@
+<% if @user.confirmed? %>
+  <svg class="w-12 h-12 mb-4 text-orange-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+  </svg>
+  <h1 class="rD4HtsUG_hahmbh2Kj09 _e063bssp_1bldcJ6kR0 P2kov_od1FPjxxII24T5 marR_sCaF_d1KewmkXGX g3OYBOqwXUEW4dRGogkH leding-tight a0Ed69aMSu0vgf4oysz0">Verified</h1>
+  <p class="_9OKVeTXzfSwD_NYO6_G XdjN1uxS_rsa3F90ox40 K1PPCJwslha8GUIvV_Cr eCx_6PNzncAD5yo7Qcic X1SJuQPYUjm4qUNX7PzP">
+    You have successfully verified your account.
+  </p>
+  <%= link_to 'Log in to your Account', root_path, class: 'block w-full wP9HMsqy6b96l2HBRbgb bg-orange-600 hover:bg-orange-700 _FONMPVaCsLFJJGDaaIL qHIOIw8TObHgD3VvKa5x focus:ring-orange-300 _A6LflweZRUwrcL6M2Tk _Qk4_E9_iLqcHsRZZ4ge MxG1ClE4KPrIvlL5_Q5x bFARDnno0HUtfhktTXfR _gKcj49wZgnwx1LpcJi6 mGXBqn9OBnSR8ouIQ9lh _F_1gdhzusC6tSOWHtx_ dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800' %>
+<% else %>
+  <h1 class="rD4HtsUG_hahmbh2Kj09 _e063bssp_1bldcJ6kR0 P2kov_od1FPjxxII24T5 marR_sCaF_d1KewmkXGX g3OYBOqwXUEW4dRGogkH leding-tight a0Ed69aMSu0vgf4oysz0">Verify</h1>
+  <p class="_9OKVeTXzfSwD_NYO6_G XdjN1uxS_rsa3F90ox40 K1PPCJwslha8GUIvV_Cr eCx_6PNzncAD5yo7Qcic X1SJuQPYUjm4qUNX7PzP">
+    Please verify your email.</p>
+  <%= link_to 'Check email inbox', "https://mail.google.com/mail/u/#{@user.email}", class: "block w-full wP9HMsqy6b96l2HBRbgb bg-orange-600 hover:bg-orange-700 _FONMPVaCsLFJJGDaaIL qHIOIw8TObHgD3VvKa5x focus:ring-orange-300 _A6LflweZRUwrcL6M2Tk _Qk4_E9_iLqcHsRZZ4ge MxG1ClE4KPrIvlL5_Q5x bFARDnno0HUtfhktTXfR _gKcj49wZgnwx1LpcJi6 mGXBqn9OBnSR8ouIQ9lh _F_1gdhzusC6tSOWHtx_ dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800" %>
+<% end %>

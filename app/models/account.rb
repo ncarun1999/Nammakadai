@@ -3,8 +3,14 @@
 class Account < ApplicationRecord
   has_logidze
 
+  # validation
+  validates :name, presence: true
+
   # associations
-  has_many :users
+  has_many :users, dependent: :destroy
+  has_many :shop_addresses, dependent: :destroy
+
+  accepts_nested_attributes_for :shop_addresses
 
   # enums
   enum account_type: {
@@ -24,5 +30,9 @@ class Account < ApplicationRecord
   # methods
   def onboarded?
     !STORE_ACCESSOR_FALSE_VALUE.include?(onboarded_on)
+  end
+
+  def default_address
+    shop_addresses.where(is_default: true)&.first
   end
 end

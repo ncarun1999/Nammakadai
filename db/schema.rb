@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_01_063556) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_01_155558) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -45,6 +45,21 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_01_063556) do
     t.datetime "updated_at", null: false
     t.index ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id"
     t.index ["resource_type", "resource_id"], name: "index_roles_on_resource"
+  end
+
+  create_table "shop_addresses", force: :cascade do |t|
+    t.string "street_1"
+    t.string "street_2"
+    t.string "city"
+    t.string "state"
+    t.string "is_default"
+    t.string "postal_code"
+    t.bigint "account_id", null: false
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_shop_addresses_on_account_id"
+    t.index ["user_id"], name: "index_shop_addresses_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -95,6 +110,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_01_063556) do
     t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
+  add_foreign_key "shop_addresses", "accounts"
+  add_foreign_key "shop_addresses", "users"
   create_function :logidze_capture_exception, sql_definition: <<-'SQL'
       CREATE OR REPLACE FUNCTION public.logidze_capture_exception(error_data jsonb)
        RETURNS boolean
