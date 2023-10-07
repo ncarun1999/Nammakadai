@@ -45,7 +45,7 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 gem 'bootsnap', require: false
 
 # Use Sass to process CSS
-# gem 'sassc-rails'
+gem 'sassc-rails'
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
@@ -77,6 +77,7 @@ end
 # Css
 gem 'tailwindcss-rails', '~> 2.0'
 
+gem 'activeadmin'
 gem 'devise', '~> 4.9'
 gem 'fx'
 gem 'logidze', '~> 1.1'
@@ -84,4 +85,3 @@ gem 'omniauth'
 gem 'omniauth-rails_csrf_protection'
 gem 'rolify', '~> 6.0', '>= 6.0.1'
 gem 'sidekiq', '~> 7.1'
-gem 'activeadmin'
