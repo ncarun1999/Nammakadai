@@ -12,4 +12,8 @@ module ApplicationHelper
   def enum_to_values(resource_klass, type)
     resource_klass.send(type)&.map { |k, _v| [k.tr('_', ' ').titleize, k] }
   end
+
+  def avatar_icon(name)
+    "https://ui-avatars.com/api/?name=#{name}&length=1&background=random"
+  end
 end

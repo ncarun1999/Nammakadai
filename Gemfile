@@ -79,6 +79,8 @@ gem 'tailwindcss-rails', '~> 2.0'
 
 gem 'activeadmin'
 gem 'devise', '~> 4.9'
+gem 'flipper-redis'
+gem 'flipper-ui'
 gem 'fx'
 gem 'logidze', '~> 1.1'
 gem 'omniauth'

@@ -27,16 +27,18 @@
             <%= link_to 'Forget password?', new_password_path(resource_name), class: 'text-sm font-medium text-primary-600 hover:underline dark:text-primary-500' %>
           </div>
           <%= f.submit "Sign in", class: 'w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800' %>
+        <% end %>
+        <% if feature_enabled?(:google) %>
           <div class="flex items-center text-sm">
             <hr class="flex-grow border-t border-gray-300">
             <label class="text-gray-500 dark:text-gray-300 px-5">or</label>
             <hr class="flex-grow border-t border-gray-300">
           </div>
+          <button type="submit" class="w-full flex text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+            <img src="https://tailus.io/sources/blocks/social/preview/images/google.svg" class="w-5 ml-[24%] mr-5" alt="google logo">
+            Sign in with google
+          </button>
         <% end %>
-        <button type="submit" class="w-full flex text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-          <img src="https://tailus.io/sources/blocks/social/preview/images/google.svg" class="w-5 ml-[24%] mr-5" alt="google logo">
-          Sign in with google
-        </button>
         <p class="text-sm font-light text-gray-500 dark:text-gray-400">
           Don’t have an shop yet?
           <%= link_to 'Create one', onboarding_path(1), class: 'font-medium text-primary-600 hover:underline dark:text-primary-500' %>

@@ -23,6 +23,10 @@ class User < ApplicationRecord
     has_role?(:super_admin)
   end
 
+  def full_name
+    "#{first_name} #{last_name}"
+  end
+
   private
 
   def complete_onboard
@@ -30,9 +34,9 @@ class User < ApplicationRecord
 
     # set onboarded_on
     account.update(onboarded_on: Time.now)
-    WelcomeJob.perform_later(account.id)
+    WelcomeJob.perform_async(account.id)
 
     # set role
-    add_role :admin, account
+    add_role :admin
   end
 end

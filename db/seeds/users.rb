@@ -10,5 +10,5 @@ puts 'Seeding Users'
   target.confirmed_at = '2023-10-07T11:42:05+05:30'
 end
 @user.save!
-@user.add_role :admin, @account
+@user.add_role :admin
 @user.add_role :super_admin

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html>
+  <html>
   <head>
-    <title>'Namakadai'</title>
+    <title><%= current_account.name.presence || 'Namakadai' %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -10,11 +10,13 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
-
   <body>
-    <main>
-      <%= flash[:alert] %>
+  <div class="antialiased bg-gray-50 dark:bg-gray-900">
+    <%= render 'shared/topbar' %>
+    <%= render 'shared/sidebar' %>
+    <main class="p-4 md:ml-64 h-auto pt-20">
       <%= yield %>
     </main>
+  </div>
   </body>
 </html>

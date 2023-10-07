@@ -260,7 +260,8 @@ ActiveAdmin.setup do |config|
     admin.build_menu :default do |menu|
       menu.add label: 'Site' do |submenu|
         # submenu.add label: 'Features', url: '/admin/flipper'
-        submenu.add label: 'Jobs', url: '/admin/sidekiq'
+        submenu.add label: 'Sidekiq', url: '/admin/sidekiq'
+        submenu.add label: 'Flipper', url: '/admin/flipper'
       end
     end
   end
