@@ -35,4 +35,8 @@ class Account < ApplicationRecord
   def default_address
     shop_addresses.where(is_default: true)&.first
   end
+
+  def whatsapp
+    @whatsapp ||= Whatsapp::Message::Client.new(account_id)
+  end
 end
