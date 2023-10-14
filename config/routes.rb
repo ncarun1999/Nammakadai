@@ -3,6 +3,9 @@ require 'sidekiq/web'
 Rails.application.routes.draw do
   devise_for :users
 
+  get '/privacy_policy', to: 'home#privacy_policy'
+  get '/terms_of_service', to: 'home#terms_of_service'
+
   namespace :onboarding do
     get 'steps/:step', to: 'wizard#show'
     post 'steps/:step', to: 'wizard#update'
