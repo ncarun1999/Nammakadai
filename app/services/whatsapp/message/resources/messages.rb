@@ -6,8 +6,14 @@ module Whatsapp
       @client = client
     end
 
-    def create(body:)
-      post_request("131754550027335/#{PATH}", body: body)
+    def text(to:, text:)
+      post_request(PATH, body: process_text_body(to, text))
+    end
+
+    private
+
+    def process_text_body(to, text)
+      { messaging_product: 'whatsapp', to: to, type: 'text', text: { preview_url: 'true', body: text } }.to_json
     end
   end
 end

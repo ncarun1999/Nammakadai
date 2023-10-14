@@ -2,17 +2,14 @@ module Whatsapp
   class Client
     BASE_URL = ENV.fetch('WHATSAPP_BASE_URL', 'https://graph.facebook.com/v18.0').freeze
     attr_accessor :account
-
-    def initialize(account_id:)
-      @account = Account.find(account_id)
-    end
+    attr_accessor :whatsapp
 
     def connection
       @connection ||= Faraday.new do |conn|
-        conn.url_prefix = BASE_URL
+        conn.url_prefix = "#{BASE_URL}/#{whatsapp.phone_number_id}"
         conn.headers = {
           'Content-Type' => 'application/json',
-          'Authorization' => "Bearer #{ENV.fetch('WHATSAPP_API_KEY', nil)}"
+          'Authorization' => "Bearer #{whatsapp.access_token}"
         }
         conn.adapter adapter
       end
