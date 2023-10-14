@@ -8,7 +8,7 @@ class CreateProducts < ActiveRecord::Migration[7.0]
       t.jsonb :additional_details, default: {}
       t.jsonb :active_for, default: []
       t.boolean :is_active
-      t.decimal :cost
+      t.monetize :cost
       t.integer :category
       t.references :created_by, polymorphic: true
 

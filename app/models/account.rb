@@ -9,6 +9,7 @@ class Account < ApplicationRecord
   # associations
   has_many :users, dependent: :destroy
   has_many :shop_addresses, dependent: :destroy
+  has_many :account_products, class_name: 'Account::Product', dependent: :destroy
   has_many :whatsapps, class_name: 'Integration::Whatsapp', dependent: :destroy
 
   accepts_nested_attributes_for :shop_addresses
@@ -24,7 +25,6 @@ class Account < ApplicationRecord
   }
 
   # store_accessors
-  store_accessor :additional_details, :onboarded_on
   store_accessor :additional_details, :current_onboard_step
   store_accessor :additional_details, :user_agreement_accepted_on
 
@@ -43,5 +43,9 @@ class Account < ApplicationRecord
 
   def default_whatsapp
     whatsapps.find_by(is_default: true)
+  end
+
+  def product
+    Product.joins(:account_products).where(account_products: { user_id: id })
   end
 end

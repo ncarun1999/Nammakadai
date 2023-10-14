@@ -1,5 +1,9 @@
 class Product < ApplicationRecord
+  has_logidze
+
   # associations
+  has_many :account_products, class_name: 'Account::Product', dependent: :destroy
+
   belongs_to :created_by, polymorphic: true, optional: true
 
   # validations
@@ -15,4 +19,7 @@ class Product < ApplicationRecord
     fancy_store: 4,
     others: 99
   }
+
+  # monetize
+  monetize :cost_cents
 end

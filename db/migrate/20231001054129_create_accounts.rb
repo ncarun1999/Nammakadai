@@ -17,6 +17,7 @@ class CreateAccounts < ActiveRecord::Migration[7.0]
       t.jsonb :additional_details, default: {}
       t.datetime :is_imported
       t.datetime :last_used
+      t.datetime :onboarded_on
 
       t.timestamps
     end
