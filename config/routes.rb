@@ -1,6 +1,7 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+  resources :products
   devise_for :users
 
   get '/privacy_policy', to: 'home#privacy_policy'

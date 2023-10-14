@@ -7,5 +7,5 @@ Style/ClassAndModuleChildren:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
-Style/HashSyntax":
+Style/HashSyntax:
   Enabled: false

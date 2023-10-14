@@ -53,8 +53,8 @@ gem 'sassc-rails'
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri mingw x64_mingw]
-  gem 'rubocop', '~> 1.56', '>= 1.56.4'
   gem 'rspec-rails', '~> 6.0', '>= 6.0.3'
+  gem 'rubocop', '~> 1.56', '>= 1.56.4'
 end
 
 group :development do
@@ -80,12 +80,13 @@ gem 'tailwindcss-rails', '~> 2.0'
 
 gem 'activeadmin'
 gem 'devise', '~> 4.9'
+gem 'faraday'
 gem 'flipper-redis'
 gem 'flipper-ui'
 gem 'fx'
 gem 'logidze', '~> 1.1'
+gem 'money-rails', '~> 1.12'
 gem 'omniauth'
 gem 'omniauth-rails_csrf_protection'
 gem 'rolify', '~> 6.0', '>= 6.0.1'
 gem 'sidekiq', '~> 7.1'
-gem 'faraday'

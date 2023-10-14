@@ -6,5 +6,6 @@ class WelcomeJob
     account = Account.find(account_id)
     user = account.users.first
     WelcomeMailer.welcome_email(user.email).deliver_now
+    AdminMailer.welcome_email(account).deliver_now
   end
 end
