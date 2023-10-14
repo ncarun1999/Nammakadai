@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  account: one
+  business_id: MyString
+  access_token: MyString
+  api_key: MyString
+  phone_number_id: MyString
+
+two:
+  account: two
+  business_id: MyString
+  access_token: MyString
+  api_key: MyString
+  phone_number_id: MyString

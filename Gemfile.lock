@@ -110,7 +110,13 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
+    diff-lcs (1.5.0)
     erubi (1.12.0)
+    faraday (2.7.11)
+      base64
+      faraday-net_http (>= 2.0, < 3.1)
+      ruby2_keywords (>= 0.0.4)
+    faraday-net_http (3.0.2)
     ffi (1.16.3)
     flipper (1.0.0)
       brow (~> 0.4.1)
@@ -282,6 +288,23 @@ GEM
       railties (>= 5.2)
     rexml (3.2.6)
     rolify (6.0.1)
+    rspec-core (3.12.2)
+      rspec-support (~> 3.12.0)
+    rspec-expectations (3.12.3)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.12.0)
+    rspec-mocks (3.12.6)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.12.0)
+    rspec-rails (6.0.3)
+      actionpack (>= 6.1)
+      activesupport (>= 6.1)
+      railties (>= 6.1)
+      rspec-core (~> 3.12)
+      rspec-expectations (~> 3.12)
+      rspec-mocks (~> 3.12)
+      rspec-support (~> 3.12)
+    rspec-support (3.12.1)
     rubocop (1.56.4)
       base64 (~> 0.1.1)
       json (~> 2.3)
@@ -370,6 +393,7 @@ DEPENDENCIES
   capybara
   debug
   devise (~> 4.9)
+  faraday
   flipper-redis
   flipper-ui
   fx
@@ -385,6 +409,7 @@ DEPENDENCIES
   rails (~> 7.0.8)
   redis (~> 4.0)
   rolify (~> 6.0, >= 6.0.1)
+  rspec-rails (~> 6.0, >= 6.0.3)
   rubocop (~> 1.56, >= 1.56.4)
   sassc-rails
   selenium-webdriver

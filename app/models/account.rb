@@ -9,6 +9,7 @@ class Account < ApplicationRecord
   # associations
   has_many :users, dependent: :destroy
   has_many :shop_addresses, dependent: :destroy
+  has_many :whatsapps, class_name: 'Integration::Whatsapp', dependent: :destroy
 
   accepts_nested_attributes_for :shop_addresses
 
@@ -33,6 +34,14 @@ class Account < ApplicationRecord
   end
 
   def default_address
-    shop_addresses.where(is_default: true)&.first
+    shop_addresses.find_by(is_default: true)
+  end
+
+  def whatsapp_message
+    @whatsapp ||= Whatsapp::Message::Client.new(id).messages
+  end
+
+  def default_whatsapp
+    whatsapps.find_by(is_default: true)
   end
 end

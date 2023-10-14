@@ -6,3 +6,6 @@ Style/ClassAndModuleChildren:
 
 Style/FrozenStringLiteralComment:
   Enabled: false
+
+Style/HashSyntax":
+  Enabled: false
