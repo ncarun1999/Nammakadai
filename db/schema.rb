@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_13_165124) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_14_143657) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -64,6 +64,23 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_13_165124) do
     t.index ["account_id"], name: "index_integration_whatsapps_on_account_id"
   end
 
+  create_table "products", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.text "short_description"
+    t.jsonb "image", default: []
+    t.jsonb "additional_details", default: {}
+    t.jsonb "active_for", default: []
+    t.boolean "is_active"
+    t.integer "cost"
+    t.integer "category"
+    t.string "created_by_type"
+    t.bigint "created_by_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_by_type", "created_by_id"], name: "index_products_on_created_by"
+  end
+
   create_table "roles", force: :cascade do |t|
     t.string "name"
     t.string "resource_type"
@@ -87,6 +104,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_13_165124) do
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_shop_addresses_on_account_id"
     t.index ["user_id"], name: "index_shop_addresses_on_user_id"
+  end
+
+  create_table "user_products", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "product_id", null: false
+    t.string "created_by_type"
+    t.bigint "created_by_id"
+    t.decimal "price"
+    t.boolean "is_active"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_by_type", "created_by_id"], name: "index_user_products_on_created_by"
+    t.index ["product_id"], name: "index_user_products_on_product_id"
+    t.index ["user_id"], name: "index_user_products_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -140,6 +171,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_13_165124) do
   add_foreign_key "integration_whatsapps", "accounts"
   add_foreign_key "shop_addresses", "accounts"
   add_foreign_key "shop_addresses", "users"
+  add_foreign_key "user_products", "products"
+  add_foreign_key "user_products", "users"
   create_function :logidze_capture_exception, sql_definition: <<-'SQL'
       CREATE OR REPLACE FUNCTION public.logidze_capture_exception(error_data jsonb)
        RETURNS boolean
