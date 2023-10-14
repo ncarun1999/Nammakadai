@@ -11,7 +11,7 @@ module Whatsapp
         OpenStruct.new(obj.transform_values { |val| to_ostruct(val) })
       elsif obj.is_a?(Array)
         obj.map { |o| to_ostruct(o) }
-      else # Assumed to be a primitive value
+      else
         obj
       end
     end
