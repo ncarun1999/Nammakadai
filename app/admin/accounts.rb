@@ -31,6 +31,7 @@ ActiveAdmin.register Account do
     column :is_imported
     column :last_used
     column :created_at
+    column :onboarded_on
 
     actions do |account|
       link_to 'Login As', root_path

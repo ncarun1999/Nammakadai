@@ -11,8 +11,8 @@ puts 'Seeding Accounts'
   target.last_ordered_number = 1000
   target.description = 'Welcome to our shop Arun Kumar C!'
   target.account_type = 'fancy_store'
+  target.onboarded_on = '2023-10-02T10:57:10.157+05:30'
   target.additional_details = {
-    'onboarded_on' => '2023-10-02T10:57:10.157+05:30',
     'current_onboard_step' => 3,
     'user_agreement_accepted_on' => '2023-10-02T10:42:42.612+05:30'
   }
