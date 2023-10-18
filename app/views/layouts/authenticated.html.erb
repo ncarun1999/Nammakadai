@@ -11,10 +11,11 @@
     <%= javascript_importmap_tags %>
   </head>
   <body>
+  <%= render 'shared/flash' if flash.present? %>
   <div class="antialiased bg-gray-50 dark:bg-gray-900">
     <%= render 'shared/topbar' %>
     <%= render 'shared/sidebar' %>
-    <main class="p-4 md:ml-64 h-auto pt-20">
+    <main class="p-4 md:ml-32 h-auto pt-12">
       <%= yield %>
     </main>
   </div>

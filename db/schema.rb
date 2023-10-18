@@ -10,25 +10,52 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_14_153602) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_15_142536) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
 
   create_table "account_products", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "product_id", null: false
-    t.string "created_by_type"
-    t.bigint "created_by_id"
+    t.bigint "account_id", null: false
+    t.string "name"
+    t.string "alias"
+    t.text "description"
+    t.text "short_description"
+    t.jsonb "images"
+    t.jsonb "additional_details", default: {}
+    t.boolean "is_active"
+    t.integer "cost_cents", default: 0, null: false
+    t.string "cost_currency", default: "INR", null: false
     t.integer "price_cents", default: 0, null: false
     t.string "price_currency", default: "INR", null: false
-    t.string "alias"
+    t.string "created_by_type"
+    t.bigint "created_by_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.jsonb "log_data"
+    t.index ["account_id"], name: "index_account_products_on_account_id"
     t.index ["created_by_type", "created_by_id"], name: "index_account_products_on_created_by"
-    t.index ["product_id"], name: "index_account_products_on_product_id"
-    t.index ["user_id"], name: "index_account_products_on_user_id"
+  end
+
+  create_table "account_variants", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "account_products_id", null: false
+    t.string "title"
+    t.string "sku"
+    t.string "barcode"
+    t.string "alias"
+    t.text "description"
+    t.text "short_description"
+    t.jsonb "images"
+    t.jsonb "additional_details", default: {}
+    t.integer "price_cents", default: 0, null: false
+    t.string "price_currency", default: "INR", null: false
+    t.integer "cost_cents", default: 0, null: false
+    t.string "cost_currency", default: "INR", null: false
+    t.boolean "is_active"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_account_variants_on_account_id"
+    t.index ["account_products_id"], name: "index_account_variants_on_account_products_id"
   end
 
   create_table "accounts", force: :cascade do |t|
@@ -96,7 +123,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_14_153602) do
     t.bigint "created_by_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.jsonb "log_data"
     t.index ["created_by_type", "created_by_id"], name: "index_products_on_created_by"
   end
 
@@ -173,8 +199,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_14_153602) do
     t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
-  add_foreign_key "account_products", "products"
-  add_foreign_key "account_products", "users"
+  add_foreign_key "account_products", "accounts"
+  add_foreign_key "account_variants", "account_products", column: "account_products_id"
+  add_foreign_key "account_variants", "accounts"
   add_foreign_key "integration_whatsapps", "accounts"
   add_foreign_key "shop_addresses", "accounts"
   add_foreign_key "shop_addresses", "users"
@@ -554,11 +581,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_14_153602) do
   SQL
   create_trigger :logidze_on_users, sql_definition: <<-SQL
       CREATE TRIGGER logidze_on_users BEFORE INSERT OR UPDATE ON public.users FOR EACH ROW WHEN ((COALESCE(current_setting('logidze.disabled'::text, true), ''::text) <> 'on'::text)) EXECUTE FUNCTION logidze_logger('null', 'updated_at')
-  SQL
-  create_trigger :logidze_on_products, sql_definition: <<-SQL
-      CREATE TRIGGER logidze_on_products BEFORE INSERT OR UPDATE ON public.products FOR EACH ROW WHEN ((COALESCE(current_setting('logidze.disabled'::text, true), ''::text) <> 'on'::text)) EXECUTE FUNCTION logidze_logger('null', 'updated_at')
-  SQL
-  create_trigger :logidze_on_account_products, sql_definition: <<-SQL
-      CREATE TRIGGER logidze_on_account_products BEFORE INSERT OR UPDATE ON public.account_products FOR EACH ROW WHEN ((COALESCE(current_setting('logidze.disabled'::text, true), ''::text) <> 'on'::text)) EXECUTE FUNCTION logidze_logger('null', 'updated_at')
   SQL
 end

@@ -2,8 +2,6 @@ class Product < ApplicationRecord
   has_logidze
 
   # associations
-  has_many :account_products, class_name: 'Account::Product', dependent: :destroy
-
   belongs_to :created_by, polymorphic: true, optional: true
 
   # validations
@@ -22,4 +20,14 @@ class Product < ApplicationRecord
 
   # monetize
   monetize :cost_cents
+
+  # callbacks
+  before_create :set_active_for
+
+  private
+
+  def set_active_for
+    self.active_for = [created_by.account.account_type]
+  end
 end
+
