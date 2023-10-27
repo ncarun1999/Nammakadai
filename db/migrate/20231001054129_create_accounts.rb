@@ -4,7 +4,6 @@ class CreateAccounts < ActiveRecord::Migration[7.0]
       t.string :name
       t.string :sales_department_email
       t.string :reporting_email
-      t.string :logo
       t.string :subdomain
       t.string :phone
       t.string :gst_number

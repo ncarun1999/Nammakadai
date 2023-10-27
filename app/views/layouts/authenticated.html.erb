@@ -2,6 +2,7 @@
   <html>
   <head>
     <title><%= current_account.name.presence || 'Namakadai' %></title>
+    <%= favicon_link_tag current_account.logo.presence || asset_path('favicon.png') %>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -11,12 +12,16 @@
     <%= javascript_importmap_tags %>
   </head>
   <body>
-  <%= render 'shared/flash' if flash.present? %>
+  <%= render("shared/toasts/#{flash.keys[0]}", message: flash[flash.keys[0]], dismiss: 3000) if flash.present? %>
+  <%= turbo_stream_from("toasts:account-#{current_account.id}") if current_account.present? %>
+  <div id="broadcast"></div>
   <div class="antialiased bg-gray-50 dark:bg-gray-900">
     <%= render 'shared/topbar' %>
     <%= render 'shared/sidebar' %>
     <main class="p-4 md:ml-32 h-auto pt-12">
-      <%= yield %>
+      <div class="ml-20 mt-10">
+        <%= yield %>
+      </div>
     </main>
   </div>
   </body>

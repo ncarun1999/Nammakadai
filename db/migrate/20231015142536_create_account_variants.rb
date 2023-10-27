@@ -9,10 +9,12 @@ class CreateAccountVariants < ActiveRecord::Migration[7.0]
       t.string :alias
       t.text :description
       t.text :short_description
-      t.jsonb :images
       t.jsonb :additional_details, default: {}
+      t.jsonb :option, default: {}
+      t.integer :position
       t.monetize :price
       t.monetize :cost
+      t.monetize :compare_at_price
       t.boolean :is_active
 
       t.timestamps

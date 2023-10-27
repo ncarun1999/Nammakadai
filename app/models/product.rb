@@ -4,6 +4,9 @@ class Product < ApplicationRecord
   # associations
   belongs_to :created_by, polymorphic: true, optional: true
 
+  # attachments
+  has_many_attached :images
+
   # validations
   validates :name, presence: true
   validates :cost, presence: true, numericality: { greater_than_or_equal_to: 0 }

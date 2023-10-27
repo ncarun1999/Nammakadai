@@ -4,7 +4,6 @@ class CreateProducts < ActiveRecord::Migration[7.0]
       t.string :name
       t.text :description
       t.text :short_description
-      t.jsonb :image, default: []
       t.jsonb :additional_details, default: {}
       t.jsonb :active_for, default: []
       t.boolean :is_active

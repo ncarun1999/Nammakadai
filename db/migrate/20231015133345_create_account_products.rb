@@ -9,9 +9,11 @@ class CreateAccountProducts < ActiveRecord::Migration[7.0]
       t.boolean :track_quantity
       t.text :description
       t.text :short_description
-      t.jsonb :images
+      t.text :product_type
+      t.integer :status
+      t.integer :published_scope
+      t.jsonb :tags
       t.jsonb :additional_details, default: {}
-      t.boolean :is_active
       t.monetize :cost
       t.monetize :price
       t.references :created_by, polymorphic: true

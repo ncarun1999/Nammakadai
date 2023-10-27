@@ -1,9 +1,14 @@
-<div class="ml-20 mt-10 ">
+<div>
   name: <%= @product.name %><br>
   description: <%= @product.description %><br>
   short_description: <%= @product.short_description %><br>
   cost: <%= @product.cost %><br>
   price: <%= @product.price %><br>
   alias: <%= @product.alias %><br>
-  images: <%= image_tag @product.images.first %><br>
+  images:
+  <div class="flex justify-start space-x-3">
+    <% @product.images.each do |image| %>
+      <%= image_tag image, class: 'h-24 w-24' %>
+    <% end %>
+  </div>
 </div>

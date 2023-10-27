@@ -12,6 +12,9 @@ class User < ApplicationRecord
   # association
   belongs_to :account
 
+  # attachments
+  has_one_attached :profile_picture
+
   # validation
   validates :first_name, presence: true
 
