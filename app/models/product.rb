@@ -12,6 +12,7 @@ class Product < ApplicationRecord
 
   # attribute accessor
   attr_accessor :remove_images
+  attr_accessor :value
 
   # attachments
   has_many_attached :images
