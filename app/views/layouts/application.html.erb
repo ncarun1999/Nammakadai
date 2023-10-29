@@ -14,7 +14,9 @@
 
 <body>
 <main>
-  <%= render("shared/toasts/#{flash.keys[0]}", message: flash[flash.keys[0]], dismiss: 3000) if flash.present? %>
+  <div id="broadcast" class="absolute inset-0 flex justify-end m-5 h-min z-50 flex-col items-end">
+    <%= render("shared/toasts/#{flash.keys[0]}", message: flash[flash.keys[0]], dismiss: 3000) if flash.present? %>
+  </div>
   <%= yield %>
 </main>
 </body>

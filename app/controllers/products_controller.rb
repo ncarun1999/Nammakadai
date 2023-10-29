@@ -1,4 +1,4 @@
-class Account::ProductsController < AuthenticatedController
+class ProductsController < AuthenticatedController
   before_action :set_product, only: %i[show edit update destroy]
 
   def index
@@ -21,7 +21,7 @@ class Account::ProductsController < AuthenticatedController
       redirect_to products_path
     else
       flash[:alert] = @product.errors.full_messages.join(', ')
-      render :'account/products/new'
+      render :new
     end
   end
 
@@ -35,7 +35,7 @@ class Account::ProductsController < AuthenticatedController
       redirect_to products_path
     else
       flash[:alert] = @product.errors.full_messages.join(', ')
-      render :'account/products/edit'
+      render :new
     end
   end
 
@@ -47,7 +47,7 @@ class Account::ProductsController < AuthenticatedController
   private
 
   def product_params
-    params.require(:account_product).permit(
+    params.require(:product).permit(
       :name, :description, :short_description, :cost, :price, :alias, :sku, :barcode, :status, :tags, :track_quantity,
       images: []
     # variants_attributes: %i[title description cost price alias]
@@ -59,11 +59,11 @@ class Account::ProductsController < AuthenticatedController
   end
 
   def process_images
-    @product.images.attach(params[:account_product][:images]) if params[:account_product][:images].any?(&:present?)
-    params[:account_product].delete(:images)
+    @product.images.attach(params[:product][:images]) if params[:product][:images].any?(&:present?)
+    params[:product].delete(:images)
 
     remove_image_params = params[:account_product][:remove_images]
-    params[:account_product].delete(:remove_images)
+    params[:product].delete(:remove_images)
 
     return unless remove_image_params
 

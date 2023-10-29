@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   end
 
   # resource
-  resources :products, module: 'account'
+  resources :products
 
   root 'dashboard#show'
 end

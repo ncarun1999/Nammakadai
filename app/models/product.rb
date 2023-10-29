@@ -2,35 +2,35 @@ class Product < ApplicationRecord
   has_logidze
 
   # associations
+  belongs_to :account
   belongs_to :created_by, polymorphic: true, optional: true
+
+  has_many :variants, dependent: :destroy
+
+  # nested attributes
+  accepts_nested_attributes_for :variants
+
+  # attribute accessor
+  attr_accessor :remove_images
 
   # attachments
   has_many_attached :images
 
   # validations
   validates :name, presence: true
-  validates :cost, presence: true, numericality: { greater_than_or_equal_to: 0 }
-
-  # enums
-  enum :category, {
-    medical: 0,
-    hotel: 1,
-    grocery_store: 2,
-    wholesale: 3,
-    fancy_store: 4,
-    others: 99
-  }
+  validates :price_cents, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :price_cents, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
   # monetize
   monetize :cost_cents
+  monetize :price_cents
 
-  # callbacks
-  before_create :set_active_for
-
-  private
-
-  def set_active_for
-    self.active_for = [created_by.account.account_type]
-  end
+  # enums
+  enum status: {
+    active: 0,
+    archived: 1,
+    inactive: 2,
+    draft: 3
+  }
 end
 

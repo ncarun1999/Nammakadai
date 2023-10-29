@@ -10,61 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_18_105724) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_27_153800) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
-
-  create_table "account_products", force: :cascade do |t|
-    t.bigint "account_id", null: false
-    t.string "name"
-    t.string "alias"
-    t.string "sku"
-    t.string "barcode"
-    t.boolean "track_quantity"
-    t.text "description"
-    t.text "short_description"
-    t.text "product_type"
-    t.integer "status"
-    t.integer "published_scope"
-    t.jsonb "tags"
-    t.jsonb "additional_details", default: {}
-    t.integer "cost_cents", default: 0, null: false
-    t.string "cost_currency", default: "INR", null: false
-    t.integer "price_cents", default: 0, null: false
-    t.string "price_currency", default: "INR", null: false
-    t.string "created_by_type"
-    t.bigint "created_by_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["account_id"], name: "index_account_products_on_account_id"
-    t.index ["created_by_type", "created_by_id"], name: "index_account_products_on_created_by"
-  end
-
-  create_table "account_variants", force: :cascade do |t|
-    t.bigint "account_id", null: false
-    t.bigint "account_products_id", null: false
-    t.string "title"
-    t.string "sku"
-    t.string "barcode"
-    t.string "alias"
-    t.text "description"
-    t.text "short_description"
-    t.jsonb "additional_details", default: {}
-    t.jsonb "option", default: {}
-    t.integer "position"
-    t.integer "price_cents", default: 0, null: false
-    t.string "price_currency", default: "INR", null: false
-    t.integer "cost_cents", default: 0, null: false
-    t.string "cost_currency", default: "INR", null: false
-    t.integer "compare_at_price_cents", default: 0, null: false
-    t.string "compare_at_price_currency", default: "INR", null: false
-    t.boolean "is_active"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["account_id"], name: "index_account_variants_on_account_id"
-    t.index ["account_products_id"], name: "index_account_variants_on_account_products_id"
-  end
 
   create_table "accounts", force: :cascade do |t|
     t.string "name"
@@ -144,19 +93,28 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_18_105724) do
   end
 
   create_table "products", force: :cascade do |t|
+    t.bigint "account_id", null: false
     t.string "name"
+    t.string "alias"
+    t.string "sku"
+    t.string "barcode"
+    t.boolean "track_quantity"
     t.text "description"
     t.text "short_description"
+    t.text "product_type"
+    t.integer "status"
+    t.integer "published_scope"
+    t.jsonb "tags"
     t.jsonb "additional_details", default: {}
-    t.jsonb "active_for", default: []
-    t.boolean "is_active"
     t.integer "cost_cents", default: 0, null: false
     t.string "cost_currency", default: "INR", null: false
-    t.integer "category"
+    t.integer "price_cents", default: 0, null: false
+    t.string "price_currency", default: "INR", null: false
     t.string "created_by_type"
     t.bigint "created_by_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_products_on_account_id"
     t.index ["created_by_type", "created_by_id"], name: "index_products_on_created_by"
   end
 
@@ -233,14 +191,39 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_18_105724) do
     t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
-  add_foreign_key "account_products", "accounts"
-  add_foreign_key "account_variants", "account_products", column: "account_products_id"
-  add_foreign_key "account_variants", "accounts"
+  create_table "variants", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "product_id", null: false
+    t.string "title"
+    t.string "sku"
+    t.string "barcode"
+    t.string "alias"
+    t.text "description"
+    t.text "short_description"
+    t.jsonb "additional_details", default: {}
+    t.jsonb "option", default: {}
+    t.integer "position"
+    t.integer "price_cents", default: 0, null: false
+    t.string "price_currency", default: "INR", null: false
+    t.integer "cost_cents", default: 0, null: false
+    t.string "cost_currency", default: "INR", null: false
+    t.integer "compare_at_price_cents", default: 0, null: false
+    t.string "compare_at_price_currency", default: "INR", null: false
+    t.boolean "is_active"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_variants_on_account_id"
+    t.index ["product_id"], name: "index_variants_on_product_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "integration_whatsapps", "accounts"
+  add_foreign_key "products", "accounts"
   add_foreign_key "shop_addresses", "accounts"
   add_foreign_key "shop_addresses", "users"
+  add_foreign_key "variants", "accounts"
+  add_foreign_key "variants", "products"
   create_function :logidze_capture_exception, sql_definition: <<-'SQL'
       CREATE OR REPLACE FUNCTION public.logidze_capture_exception(error_data jsonb)
        RETURNS boolean

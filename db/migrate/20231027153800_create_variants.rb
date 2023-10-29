@@ -1,8 +1,8 @@
-class CreateAccountVariants < ActiveRecord::Migration[7.0]
+class CreateVariants < ActiveRecord::Migration[7.0]
   def change
-    create_table :account_variants do |t|
+    create_table :variants do |t|
       t.references :account, null: false, foreign_key: true
-      t.references :account_products, null: false, foreign_key: true
+      t.references :product, null: false, foreign_key: true
       t.string :title
       t.string :sku
       t.string :barcode
