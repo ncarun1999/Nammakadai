@@ -1,7 +1,7 @@
 import {Controller} from "@hotwired/stimulus"
 
 export default class extends Controller {
-    static targets = ['optionSet', 'toggleButton', 'valueFields', 'optionSetFirstElement']
+    static targets = ['optionSet', 'addOptionSet', 'toggleButton', 'valueFields', 'optionSetFirstElement']
 
     initialize() {
         this.setupInputListener();
@@ -15,6 +15,19 @@ export default class extends Controller {
                 if (event.target === lastValueField && lastValueField.value.trim() !== "") {
                     this.addNewValueField(valueField);
                 }
+
+                let removeBg = true
+                const allOtherValueFields = event.target.closest('.value-fields').querySelectorAll('input');
+                allOtherValueFields.forEach((otherValueField) => {
+                    if ((event.target !== otherValueField) && (otherValueField.value === event.target.value)) {
+                        event.target.classList.add("bg-red-300");
+                        removeBg = false
+                    } else {
+                        if (removeBg) {
+                            event.target.classList.remove("bg-red-300");
+                        }
+                    }
+                });
             });
         });
     }
@@ -48,5 +61,9 @@ export default class extends Controller {
     showOptionSet(event) {
         this.toggleButtonTarget.classList.add("hidden");
         this.optionSetTarget.classList.remove("hidden");
+        this.addOptionSetTarget.classList.remove("hidden");
+        this.optionSetTarget.querySelectorAll('input, select').forEach((input) => {
+            input.disabled = false;
+        });
     }
 }
