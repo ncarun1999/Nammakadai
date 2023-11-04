@@ -1,5 +1,6 @@
 class ProductsController < AuthenticatedController
   before_action :set_product, only: %i[show edit update destroy]
+  before_action :process_images, only: %i[update]
 
   def index
     @products = current_account.products
@@ -9,12 +10,9 @@ class ProductsController < AuthenticatedController
     @product = current_account.products.new
   end
 
-  def show
-  end
+  def show; end
 
   def create
-    p product_params
-    sd
     @product = current_account.products.new product_params
     @product.created_by = current_user
 
@@ -30,8 +28,6 @@ class ProductsController < AuthenticatedController
   def edit; end
 
   def update
-    process_images
-
     if @product.update product_params
       flash[:success] = "Product #{@product.name} updated successfully"
       redirect_to products_path
@@ -49,11 +45,9 @@ class ProductsController < AuthenticatedController
   private
 
   def product_params
-    # variants_attributes: %i[title description cost price alias]
     params.require(:product).permit(
       :name, :description, :short_description, :cost, :price, :alias, :sku, :barcode, :status, :tags, :track_quantity,
-      images: [],
-      option_names_attributes: [:name, option_values_attributes: [:name]]
+      images: []
     )
   end
 
@@ -66,20 +60,7 @@ class ProductsController < AuthenticatedController
     params[:product].delete(:images)
 
     remove_image_params = params[:account_product][:remove_images]
+    remove_image_params&.each { |image_id| @product.images.find(image_id).purge }
     params[:product].delete(:remove_images)
-
-    return unless remove_image_params
-
-    remove_image_params.each do |image_id|
-      @product.images.find(image_id).purge
-    end
-  end
-
-  def process_option_values_attributes
-    params[:product][:option_names_attributes].each do |_, option_name|
-      option_name[:option_values_attributes].transform_values! do |value_attributes|
-        value_attributes.reject! { |_, value| value.blank? }
-      end
-    end
   end
 end
