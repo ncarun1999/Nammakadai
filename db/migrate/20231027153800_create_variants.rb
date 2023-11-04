@@ -1,18 +1,20 @@
-class CreateAccountVariants < ActiveRecord::Migration[7.0]
+class CreateVariants < ActiveRecord::Migration[7.0]
   def change
-    create_table :account_variants do |t|
+    create_table :variants do |t|
       t.references :account, null: false, foreign_key: true
-      t.references :account_products, null: false, foreign_key: true
-      t.string :title
+      t.references :product, null: false, foreign_key: true
+      t.string :unit_name
       t.string :sku
       t.string :barcode
       t.string :alias
       t.text :description
       t.text :short_description
-      t.jsonb :images
       t.jsonb :additional_details, default: {}
+      t.jsonb :option, default: {}
+      t.integer :position
       t.monetize :price
       t.monetize :cost
+      t.monetize :compare_at_price
       t.boolean :is_active
 
       t.timestamps

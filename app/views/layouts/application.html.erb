@@ -3,6 +3,7 @@
 <head>
   <title>Namakadai</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= favicon_link_tag asset_path('favicon.png') %>
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
   <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
@@ -13,7 +14,9 @@
 
 <body>
 <main>
-  <%= render 'shared/flash' if flash.present? %>
+  <div id="broadcast" class="absolute inset-0 flex justify-end m-5 h-min z-50 flex-col items-end">
+    <%= render("shared/toasts/#{flash.keys[0]}", message: flash[flash.keys[0]], dismiss: 3000) if flash.present? %>
+  </div>
   <%= yield %>
 </main>
 </body>

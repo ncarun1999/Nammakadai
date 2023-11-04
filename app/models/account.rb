@@ -9,8 +9,12 @@ class Account < ApplicationRecord
   # associations
   has_many :users, dependent: :destroy
   has_many :shop_addresses, dependent: :destroy
-  has_many :products, class_name: 'Account::Product', dependent: :destroy
+  has_many :products, dependent: :destroy
   has_many :whatsapps, class_name: 'Integration::Whatsapp', dependent: :destroy
+
+  # attachments
+  has_one_attached :logo
+  has_many_attached :images
 
   accepts_nested_attributes_for :shop_addresses
 

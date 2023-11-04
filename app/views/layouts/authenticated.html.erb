@@ -1,23 +1,31 @@
 <!DOCTYPE html>
-  <html>
-  <head>
-    <title><%= current_account.name.presence || 'Namakadai' %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
-    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+<html>
+<head>
+  <title><%= current_account.name.presence || 'Namakadai' %></title>
+  <%= favicon_link_tag current_account.logo.presence || asset_path('favicon.png') %>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
-  </head>
-  <body>
-  <%= render 'shared/flash' if flash.present? %>
-  <div class="antialiased bg-gray-50 dark:bg-gray-900">
-    <%= render 'shared/topbar' %>
-    <%= render 'shared/sidebar' %>
-    <main class="p-4 md:ml-32 h-auto pt-12">
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= javascript_importmap_tags %>
+</head>
+<body>
+
+<%= turbo_stream_from("toasts:account-#{current_account.id}") if current_account.present? %>
+<div id="broadcast" class="absolute inset-0 flex justify-end m-5 h-min z-50 flex-col items-end">
+  <%= render("shared/toasts/#{flash.keys[0]}", message: flash[flash.keys[0]], dismiss: 3000) if flash.present? %>
+</div>
+
+<div class="antialiased bg-orange-50 dark:bg-gray-900">
+  <%= render 'shared/topbar' %>
+  <%= render 'shared/sidebar' %>
+  <main class="p-4 md:ml-32 h-auto pt-12">
+    <div class="ml-20 mt-10">
       <%= yield %>
-    </main>
-  </div>
-  </body>
+    </div>
+  </main>
+</div>
+</body>
 </html>

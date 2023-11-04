@@ -1,0 +1,160 @@
+<%= form_for @product, html: { data: { turbo: false }, class: 'bg-orange-50' } do |f| %>
+  <div class="bg-gray-50 px-5 pt-3 pb-8 mb-3 rounded-lg border border-gray-200">
+    <div class="pt-5">
+      <%= f.label :name, class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-white' %>
+      <%= f.text_field :name, placeholder: 'T-Shirt', required: true, class: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' %>
+    </div>
+    <div class="grid grid-cols-2 gap-6">
+      <div class="pt-5">
+        <%= f.label :description, class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-white' %>
+        <%= f.text_area :description, class: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' %>
+      </div>
+      <div class="pt-5">
+        <%= f.label :short_description, class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-white' %>
+        <%= f.text_area :short_description, class: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-gray-50 px-5 pt-3 pb-8 mb-3 rounded-lg border border-gray-200" data-controller="file-upload">
+    <div class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Image</div>
+    <div class="grid gap-6 mt-2 mb-6 md:grid-cols-5" id="file-upload-content">
+      <div class="flex items-center justify-center w-full">
+        <label for="images-upload-field" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+          <div class="flex flex-col text-center items-center justify-center pt-5 pb-6">
+            <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+            </svg>
+            <div class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+              <span class="font-semibold">Click to upload</span> or drag and drop
+            </div>
+            <div class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</div>
+          </div>
+          <%= f.file_field :images, multiple: true, id: 'images-upload-field', accept: "image/*", class: 'hidden', data: { action: "change->file-upload#readURL" } %>
+        </label>
+      </div>
+      <% if @product.images.any? %>
+        <% @product.images.each do |image| %>
+          <div class="relative">
+            <%= image_tag image %>
+            <div class="absolute top-0 right-0 bg-white w-6 h-6 text-center">
+              <%= f.check_box :remove_images, { multiple: true }, image.id, nil %>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="bg-gray-50 px-5 pt-3 pb-8 mb-3 rounded-lg border border-gray-200">
+    <div class="grid grid-cols-2 gap-6">
+      <div>
+        <%= f.label 'Cost per item', class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-white' %>
+        <%= f.number_field :cost, required: true, class: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' %>
+      </div>
+      <div>
+        <%= f.label :price, class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-white' %>
+        <%= f.number_field :price, class: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-gray-50 px-5 pt-3 pb-8 mb-3 rounded-lg border border-gray-200">
+    <div class="grid grid-cols-2 gap-6">
+      <div>
+        <%= f.label :sku, class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-white' %>
+        <%= f.text_field :sku, class: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' %>
+      </div>
+      <div>
+        <%= f.label :barcode, class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-white' %>
+        <%= f.text_field :barcode, class: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' %>
+      </div>
+      <div>
+        <%= f.label :status, class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-white' %>
+        <%= f.select :status, Product.statuses.keys, {}, { class: 'bg-gray-50 border border-gray-300 capitalize text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } %>
+      </div>
+      <div>
+        <%= f.label :alias, class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-white' %>
+        <%= f.text_field :alias, class: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' %>
+      </div>
+      <div>
+        <%= f.label :tags, class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-white' %>
+        <%= f.text_field :tags, class: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' %>
+      </div>
+    </div>
+  </div>
+
+  <!--  <div>-->
+  <%#= f.label :track_quantity, class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-white' %>
+  <%#= f.check_box :track_quantity %>
+  <!--  </div>-->
+
+  <!--variants-->
+  <div class="bg-gray-50 px-5 pt-3 pb-8 mb-3 rounded-lg border border-gray-200">
+    <div class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Variants</div>
+    <div data-controller="variant">
+      <div data-action='click->variant#showOptionSet touch->variant#showOptionSet' data-variant-target="toggleButton" class="font-semibold text-sm font-sans text-blue-500">
+        <span class="">+ Add options like size or color</span>
+      </div>
+
+      <div data-variant-target="optionSet" id="optionSet" class="my-4 hidden optionSet">
+        <%= f.fields_for :option_names, @product.option_names.build do |option_set_form| %>
+          <div class="mt-6 mb-6 option-set-fields" data-variant-target="optionSetFirstElement">
+            <div class="option-name-fields">
+              <%= option_set_form.label 'Option name', class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-white' %>
+              <%= option_set_form.select :name, ['Size', 'Color'], {}, { id: '0', 'data-field-id': '0', disabled: true, class: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } %>
+            </div>
+
+            <div class="option-value-fields">
+              <%= option_set_form.fields_for :option_values, Option::Value.new do |option_value_form| %>
+                <div class="'block mt-4 mb-2 text-sm font-medium text-gray-900 dark:text-white option_value_field_label">Option
+                  values
+                </div>
+                <div class="value-fields" data-variant-target="valueFields">
+                  <%= option_value_form.text_field :name, placeholder: 'Medium', disabled: true, data: { field_id: '0' }, class: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <div data-action='click->variant#addOptionSet' data-variant-target="addOptionSet" class="font-semibold text-sm font-sans text-blue-500 hidden">
+        <span class="">+ Add another options</span>
+      </div>
+
+      <div id="variants" data-variant-target="variants" class="">
+        <%= f.fields_for :variants, @product.variants.build do |vf| %>
+          <template>
+            <div class="grid gap-6 mt-6 mb-6 md:grid-cols-6">
+              <div>
+                <%= vf.label :unit_name, class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-white' %>
+                <%= vf.text_field :unit_name, class: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' %>
+              </div>
+              <div>
+                <%= vf.label :description, class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-white' %>
+                <%= vf.text_field :description, class: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' %>
+              </div>
+              <div>
+                <%= vf.label :cost, class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-white' %>
+                <%= vf.number_field :cost, class: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' %>
+              </div>
+              <div>
+                <%= vf.label :price, class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-white' %>
+                <%= vf.number_field :price, class: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' %>
+              </div>
+              <div>
+                <%= vf.label :alias, class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-white' %>
+                <%= vf.text_field :alias, class: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' %>
+              </div>
+              <div>
+                <%= vf.label :images, class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-white' %>
+                <%= vf.file_field :images, multiple: true, id: 'multiple_files', class: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' %>
+              </div>
+            </div>
+          </template>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+<% end %>
