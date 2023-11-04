@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_27_153800) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_29_133520) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -90,6 +90,26 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_27_153800) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_integration_whatsapps_on_account_id"
+  end
+
+  create_table "option_names", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "product_id", null: false
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_option_names_on_account_id"
+    t.index ["product_id"], name: "index_option_names_on_product_id"
+  end
+
+  create_table "option_values", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "option_name_id", null: false
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_option_values_on_account_id"
+    t.index ["option_name_id"], name: "index_option_values_on_option_name_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -194,7 +214,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_27_153800) do
   create_table "variants", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "product_id", null: false
-    t.string "title"
+    t.string "unit_name"
     t.string "sku"
     t.string "barcode"
     t.string "alias"
@@ -219,6 +239,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_27_153800) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "integration_whatsapps", "accounts"
+  add_foreign_key "option_names", "accounts"
+  add_foreign_key "option_names", "products"
+  add_foreign_key "option_values", "accounts"
+  add_foreign_key "option_values", "option_names"
   add_foreign_key "products", "accounts"
   add_foreign_key "shop_addresses", "accounts"
   add_foreign_key "shop_addresses", "users"

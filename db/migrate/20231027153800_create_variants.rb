@@ -3,7 +3,7 @@ class CreateVariants < ActiveRecord::Migration[7.0]
     create_table :variants do |t|
       t.references :account, null: false, foreign_key: true
       t.references :product, null: false, foreign_key: true
-      t.string :title
+      t.string :unit_name
       t.string :sku
       t.string :barcode
       t.string :alias

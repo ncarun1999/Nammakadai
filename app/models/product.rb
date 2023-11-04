@@ -6,8 +6,11 @@ class Product < ApplicationRecord
   belongs_to :created_by, polymorphic: true, optional: true
 
   has_many :variants, dependent: :destroy
+  has_many :option_names, class_name: 'Option::Name', dependent: :destroy
+  has_many :option_values, through: :option_names
 
   # nested attributes
+  accepts_nested_attributes_for :option_names
   accepts_nested_attributes_for :variants
 
   # attribute accessor

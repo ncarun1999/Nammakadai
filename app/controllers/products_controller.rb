@@ -13,6 +13,8 @@ class ProductsController < AuthenticatedController
   end
 
   def create
+    p product_params
+    sd
     @product = current_account.products.new product_params
     @product.created_by = current_user
 
@@ -47,10 +49,11 @@ class ProductsController < AuthenticatedController
   private
 
   def product_params
+    # variants_attributes: %i[title description cost price alias]
     params.require(:product).permit(
       :name, :description, :short_description, :cost, :price, :alias, :sku, :barcode, :status, :tags, :track_quantity,
-      images: []
-    # variants_attributes: %i[title description cost price alias]
+      images: [],
+      option_names_attributes: [:name, option_values_attributes: [:name]]
     )
   end
 
@@ -69,6 +72,14 @@ class ProductsController < AuthenticatedController
 
     remove_image_params.each do |image_id|
       @product.images.find(image_id).purge
+    end
+  end
+
+  def process_option_values_attributes
+    params[:product][:option_names_attributes].each do |_, option_name|
+      option_name[:option_values_attributes].transform_values! do |value_attributes|
+        value_attributes.reject! { |_, value| value.blank? }
+      end
     end
   end
 end
