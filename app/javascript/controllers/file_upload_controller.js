@@ -28,7 +28,6 @@ export default class extends Controller {
         const fileName = div.getAttribute("data-file-name")
         const fileSize = div.getAttribute('data-file-size');
         console.log(fileName, fileSize);
-        // div.remove();
         this.clearUploads(event);
         const fileInputField = document.querySelector('#images-upload-field');
         fileInputField.files = [];

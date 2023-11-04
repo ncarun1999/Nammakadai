@@ -36,7 +36,6 @@ export default class extends Controller {
     addNewValueField(valueField) {
         const lastValueField = valueField.lastElementChild;
         const optionSetId = lastValueField.closest('.option-set-fields').querySelector('select').getAttribute('data-field-id')
-        debugger
         if (lastValueField.value.trim() !== "") {
             const newValueField = lastValueField.cloneNode(true);
             newValueField.id = Date.now();
